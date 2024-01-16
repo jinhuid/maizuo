@@ -9,7 +9,7 @@ module.exports = defineConfig({
     config
       .plugin('html')
       .tap(args => {
-        args[0].title = 'Hwang'
+        args[0].title = 'maizuo'
         return args
       })
   },
