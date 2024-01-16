@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkhello"]=self["webpackChunkhello"]||[]).push([[189],{5189:function(l,e,n){n.r(e),n.d(e,{default:function(){return f}});var u=function(){var l=this,e=l._self._c;return e("div",[l._v(" order ")])},r=[],t=n(1001),s={},c=(0,t.Z)(s,u,r,!1,null,null,null),f=c.exports}}]);
-//# sourceMappingURL=189.17ca1c5f.js.map
