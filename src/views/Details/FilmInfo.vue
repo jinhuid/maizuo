@@ -9,12 +9,10 @@
     <div class="greytext">{{ dataList.category | textSpace }}</div>
 
     <div class="greytext">
-      {{getDate(dataList.premiereAt * 1000) }}
+      {{ getDate(dataList.premiereAt * 1000) }}
     </div>
 
-    <div class="greytext">
-      {{ dataList.nation }} | {{ dataList.runtime }}分钟
-    </div>
+    <div class="greytext">{{ dataList.nation }} | {{ dataList.runtime }}分钟</div>
 
     <div class="greytext detail" style="margin-top: 12px" ref="showMore">
       {{ dataList.synopsis }}
@@ -25,7 +23,7 @@
         :class="{
           iconfont: true,
           'icon-arrow-down-bold': downOrup,
-          'icon-arrow-up-bold': !downOrup,
+          'icon-arrow-up-bold': !downOrup
         }"
         @click="hidden"
       ></i>
@@ -34,41 +32,38 @@
 </template>
 
 <script>
-import "@/assets/font_3646397_en0apnd901j/iconfont.css";
-import Vue from "vue";
-import getTime from "@/util/getTime";
+import '@/assets/font_3646397_en0apnd901j/iconfont.css'
+import Vue from 'vue'
+import getTime from '@/util/getTime'
 
-Vue.filter("textSpace", (text) => {
-  return text.replace("|", " | ");
-});
-
+Vue.filter('textSpace', (text) => {
+  return text.replace('|', ' | ')
+})
 
 export default {
-  props:['dataList'],
+  props: ['dataList'],
   data() {
     return {
-      downOrup: true,
-    };
+      downOrup: true
+    }
   },
   methods: {
-    getDate(timeStamp){
-      return getTime(timeStamp,['year','month','day'])
+    getDate(timeStamp) {
+      return getTime(timeStamp, ['year', 'month', 'day'])
     },
     hidden() {
-      this.downOrup = !this.downOrup;
+      this.downOrup = !this.downOrup
       if (this.downOrup) {
-        this.$refs.showMore.style.height = 38 + "px";
+        this.$refs.showMore.style.height = 38 + 'px'
       } else {
-        this.$refs.showMore.style.height =
-          this.$refs.showMore.scrollHeight + "px";
+        this.$refs.showMore.style.height = this.$refs.showMore.scrollHeight + 'px'
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
-<style scoped lang='scss'>
-
+<style scoped lang="scss">
 .info {
   background-color: #fff;
   width: 100%;
@@ -98,7 +93,7 @@ export default {
     font-size: 18px;
     font-style: italic;
     color: #ffb232;
-    span{
+    span {
       background: transparent;
       font-size: 12px;
     }

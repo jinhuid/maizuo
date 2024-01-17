@@ -14,7 +14,7 @@
 import { Toast } from "vant";
 import axios from "axios";
 
-function createHttp(config,isShowLoading=true){
+function createHttp(config, isShowLoading = true) {
   let http = axios.create({
     baseURL: 'https://m.maizuo.com',
     timeout: 10000,
@@ -24,11 +24,11 @@ function createHttp(config,isShowLoading=true){
     }
   })
   http.interceptors.request.use(function (config) {
-    if(isShowLoading===true)
-    Toast.loading({
-      message: '加载中...',
-      forbidClick: true
-    })
+    if (isShowLoading === true)
+      Toast.loading({
+        message: '加载中...',
+        forbidClick: true
+      })
     // console.log(showLoading);
     // 发送请求前 config 记录了我们写的一些配置信息
     return config;
@@ -36,20 +36,20 @@ function createHttp(config,isShowLoading=true){
     // Do something with request error
     return Promise.reject(error);
   });
-  
+
   // Add a response interceptor
   http.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-  
+
     // response为我们发送请求后回应的内容   
-  
+
     Toast.clear()
     return response;
   }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-  
+
     Toast.clear()
     return Promise.reject(error);
   });

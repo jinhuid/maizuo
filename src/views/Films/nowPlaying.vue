@@ -7,16 +7,14 @@
         @click="handleChangePage(item.filmId)"
         v-lazy="item"
       >
-      <div class="imgBox">
-      <img-transition>
-       
-          <div v-show="item.show">
-            <img :src="item.show?item.poster:''" alt="" />
-          </div>
-       
-      </img-transition>
-    </div>
-        
+        <div class="imgBox">
+          <img-fade>
+            <div v-show="item.show">
+              <img :src="item.show ? item.poster : ''" alt="" />
+            </div>
+          </img-fade>
+        </div>
+
         <div class="FilmInformation">
           <div>
             <span class="name">{{ item.name }} </span
@@ -24,8 +22,7 @@
           </div>
           <div>
             <span class="label"
-              >观众评分
-              <span style="color: #ffb232">{{ item.grade }}</span></span
+              >观众评分 <span style="color: #ffb232">{{ item.grade }}</span></span
             >
           </div>
           <div>
@@ -35,51 +32,47 @@
             >
           </div>
           <div>
-            <span class="label"
-              >{{ item.nation }} | {{ item.runtime }}分钟</span
-            >
+            <span class="label">{{ item.nation }} | {{ item.runtime }}分钟</span>
           </div>
         </div>
-        <div class="buy" @click.stop="buyTicket(item.filmId, item.name)">
-          购票
-        </div>
+        <div class="buy" @click.stop="buyTicket(item.filmId, item.name)">购票</div>
       </li>
     </ul>
     <div v-if="show" class="noMore">暂无更多</div>
   </div>
 </template>
 <script>
-import http from "@/util/http.js";
-import Vue from "vue";
-import lazy from "@/util/lazy";
-import imgTransition from '@/components/transition/imgTransition.vue'
-Vue.filter("actors", (v) => {
-  return v.map((item) => item.name).join(" ");
-});
-Vue.directive("lazy", lazy);
+import http from '@/util/http.js'
+import Vue from 'vue'
+import lazy from '@/util/lazy'
+import ImgFade from '@/components/transition/ImgFade.vue'
+Vue.filter('actors', (v) => {
+  return v.map((item) => item.name).join(' ')
+})
+Vue.directive('lazy', lazy)
 export default {
   data() {
     return {
       dataList: [],
       page: 1,
       tag: true,
-      show: true,
-    };
+      show: true
+    }
   },
-  components:{
-    imgTransition
+  components: {
+    ImgFade
   },
   methods: {
     buyTicket(id, filmName) {
-      this.$store.commit("setFilmInfo",{id,filmName});
+      this.$store.commit('setFilmInfo', { id, filmName })
       this.$router.push({
-        name: "电影视图", //用params时不能用path
+        name: '电影视图', //用params时不能用path
         params: {
           // path: `/detail/${id}/cinemas`,
           filmName,
-          myID: id,
-        },
-      });
+          myID: id
+        }
+      })
     },
     handleChangePage(id) {
       // 编程式导航
@@ -90,11 +83,11 @@ export default {
 
       // 2.通过路由命名跳转
       this.$router.push({
-        name: "详情", //跳往组件的名字
+        name: '详情', //跳往组件的名字
         params: {
-          myID: id,
-        },
-      });
+          myID: id
+        }
+      })
     },
     sendRequest(ob) {
       return http({
@@ -102,57 +95,54 @@ export default {
         url: `/gateway?cityId=${this.$store.state.cityId}&pageNum=${this
           .page++}&pageSize=10&type=1&k=70052`,
         headers: {
-          "X-Host": "mall.film-ticket.film.list",
-        },
-      }).then((res) => {
-        this.dataList.push(...res.data.data.films);
-        if (this.dataList.length === res.data.data.total) {
-          this.tag = false;
-          ob?.disconnect();
+          'X-Host': 'mall.film-ticket.film.list'
         }
-      });
-    },
+      }).then((res) => {
+        this.dataList.push(...res.data.data.films)
+        if (this.dataList.length === res.data.data.total) {
+          this.tag = false
+          ob?.disconnect()
+        }
+      })
+    }
   },
-  mounted() {
-    (async () => {
-      await this.sendRequest();
-      this.$nextTick(() => {
-        const noMore = document.querySelector(".noMore");
-        const ob = new IntersectionObserver(
-          (entries) => {
-            //isIntersecting true为进入 false离开 进入离开都会触发
-            // console.log(entries[0].isIntersecting);
+  async mounted() {
+    await this.sendRequest()
+    this.$nextTick(() => {
+      const noMore = document.querySelector('.noMore')
+      const ob = new IntersectionObserver(
+        (entries) => {
+          //isIntersecting true为进入 false离开 进入离开都会触发
+          // console.log(entries[0].isIntersecting);
 
-            if (entries[0].isIntersecting && this.tag) {
-              this.sendRequest(ob);
-            }
-          },
-          {
-            root: null, //null则默认使用顶级文档的视口。
-            thresholds: 1, //露出视口多少部分
-            rootMargin: "0px 0px 300px 0px",
+          if (entries[0].isIntersecting && this.tag) {
+            this.sendRequest(ob)
           }
-        );
-        ob.observe(noMore);
-      });
-    })();
-  },
-};
+        },
+        {
+          root: null, //null则默认使用顶级文档的视口。
+          thresholds: 1, //露出视口多少部分
+          rootMargin: '0px 0px 300px 0px'
+        }
+      )
+      ob.observe(noMore)
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-
 .filmsDetail li {
   background-color: #fff;
   height: 124px;
   padding: 15px;
   box-sizing: border-box;
   display: flex;
-  align-items:center;
+  align-items: center;
   position: relative;
   overflow: hidden;
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     bottom: 0;
@@ -162,7 +152,8 @@ export default {
     transform-origin: 0 100%;
     transform: scaleY(0.5);
   }
-  img,.imgBox {
+  img,
+  .imgBox {
     // height: ;
     width: 66px;
   }

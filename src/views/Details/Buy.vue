@@ -1,12 +1,12 @@
 <template>
     <div>
-        
         <div class="goSchedule" @click="buyTicket(dataList.filmId, dataList.name)"> 选座购票 </div>
     </div>
 </template>
+
 <script>
 export default {
-    props: ['dataList'],
+    props: ['dataList'], 
     methods: {
         buyTicket(id, filmName) {
             this.$store.commit('setFilmInfo', {id,filmName})
@@ -24,8 +24,6 @@ export default {
 }
 </script>
 <style scoped>
-
-
 .goSchedule {
     position: fixed;
     bottom: 0;

@@ -8,13 +8,13 @@
         v-lazy="item"
       >
       <div class="imgBox">
-        <img-transition>
+        <ImgFade>
           
             <div v-show="item.show">
               <img :src="item.show?item.poster:''" alt="" />
             </div>
           
-        </img-transition>
+        </ImgFade>
       </div>
         <div class="FilmInformation">
           <div>
@@ -42,7 +42,7 @@ import http from "@/util/http.js";
 import Vue from "vue";
 import lazy from '@/util/lazy';
 import getTime from '@/util/getTime';
-import imgTransition from '@/components/transition/imgTransition.vue'
+import ImgFade from '@/components/transition/ImgFade.vue'
 
 Vue.directive('lazy',lazy)
 Vue.filter("actors", (v) => {
@@ -59,7 +59,7 @@ export default {
     };
   },
   components:{
-    imgTransition
+    ImgFade
   },
   methods: {
     getDate(timeStamp){

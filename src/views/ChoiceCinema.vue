@@ -2,20 +2,13 @@
   <div class="main">
     <header v-if="cinemaInfo">
       <div class="header-left">
-        <van-icon
-          class="return"
-          name="arrow-left"
-          size="24"
-          @click="$router.back()" />
+        <van-icon class="return" name="arrow-left" size="24" @click="$router.back()" />
       </div>
       <div data-v-18fbab6c="" class="header-title">{{ cinemaInfo.name }}</div>
       <div class="services" v-if="cinemaInfo.services">
-        <span
-          class="services-item"
-          v-for="(item, index) in cinemaInfo.services"
-          :key="index"
-          >{{ item.name }}</span
-        >
+        <span class="services-item" v-for="(item, index) in cinemaInfo.services" :key="index">{{
+          item.name
+        }}</span>
         <van-icon name="arrow" size="12" />
       </div>
       <div class="address">
@@ -23,9 +16,7 @@
         <div class="address-dev">
           {{ cinemaInfo.address }}
         </div>
-        <a :href="`tel:${cinemaInfo.phone}`"
-          ><van-icon name="phone-o" size="24"
-        /></a>
+        <a :href="`tel:${cinemaInfo.phone}`"><van-icon name="phone-o" size="24" /></a>
       </div>
     </header>
 
@@ -35,39 +26,32 @@
         <div
           class="bg"
           :style="{
-            backgroundImage: `url(${filmsInfo[currentIndex].poster})`,
-          }"></div>
+            backgroundImage: `url(${filmsInfo[currentIndex].poster})`
+          }"
+        ></div>
         <div class="mySwiper">
-          <CinemaSwiper @setIndex="current" :index="currentIndex">
-            <CinemaSwiperItem v-for="(item, index) in filmsInfo" :key="index">
-              <img-transition
-                ><img class="swiperItem" :src="item.poster" alt=""
-              /></img-transition>
-            </CinemaSwiperItem>
-          </CinemaSwiper>
+          <film-swiper @setIndex="current" :index="currentIndex" :items="filmsInfo">
+            <template #default="{ item }">
+              <ImgFade><img class="swiperItem" :src="item.poster" alt="" /></ImgFade>
+            </template>
+          </film-swiper>
         </div>
       </div>
-      <div
-        class="film-info"
-        @click="$router.push(`/detail/${filmsInfo[currentIndex].filmId}`)">
+      <div class="film-info" @click="$router.push(`/detail/${filmsInfo[currentIndex].filmId}`)">
         <div class="film-head">
           <span class="film-name">{{ filmsInfo[currentIndex].name }}</span
           ><span class="film-score">{{ filmsInfo[currentIndex].grade }}</span
           ><span class="film-unit">分</span>
         </div>
         <div class="film-dec">
-          {{ filmsInfo[currentIndex].category }} |
-          {{ filmsInfo[currentIndex].runtime }}分钟 |
-          {{ filmsInfo[currentIndex].director + " | "
+          {{ filmsInfo[currentIndex].category }} | {{ filmsInfo[currentIndex].runtime }}分钟 |
+          {{ filmsInfo[currentIndex].director + ' | '
           }}{{ filterActors(filmsInfo[currentIndex].actors) }}
         </div>
         <img
-          data-v-18fbab6c=""
           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAYCAYAAADOMhxqAAAAAXNSR0IArs4c6QAAAhJJREFUOBGFU79PFEEUnh932Liz1xDAMezRaWFBrlEaw8XORBNjSAw0hIbWzmBri38BIdIZFRIKEyCBmGhMLC38EQu9u9wASkNuz0S4g+F7w+zGhT19xc778X1vZr55K7XWDwMVLgehCuNW6w37j0mAX1lrNbPsZqhK3Thuvf0XR15UgQbgBoEss+MqKH0F6VMvkrg0OPiIc7bpAZxx+0zryDXII3FKlsvl0sFh5z3cqx60VyzI641G47uP00WQV6vV9vuKhdtwf/lKf7d79Joa+ThdHIGier3+Q3B2l3P+h2LL2JXDTnelUqkUKU5MJg6tcRw3lQq+AXwfIR13pP27fRn5VaqTZQiUQPGzCsMDbHGLYthooFSnHcdO7nMEQuAB34E0DNIoxbBqIrdT6TSX/dLZd3Z/ruFRq1Shu3Emqz0JBDorN0gfU5UIkGfomGnak0BHgqzLJC81Oj2Snc29tAMIsWAtu+d3tXijSWPMRu4OQ1rPATztwYwLPgfwS9coSSar1sMTx/boOWJ3doAXt5vNmaSe2YGm1LLjpRTM+dbQwMBsAqY1VSCKohFc8gNy/R7w5UJfcYwG08ducZcmvQHeQibyxT1M7zgGcvdvMPkikQ+++xdIPihyh6b3LJhiKURhHs//wBchn5wyprmeB6acwH88kRY5e2xM40Ua5zgS82/xjNcg39MdY57kYDKpEyF1uKDTCa4lAAAAAElFTkSuQmCC"
-          width="4px"
-          height="8px"
-          alt=""
-          class="film-more" />
+          class="film-more"
+        />
       </div>
       <keep-alive>
         <FilmList
@@ -75,35 +59,34 @@
           :filmsInfo="filmsInfo"
           :currentIndex="currentIndex"
           :cinemaInfo="cinemaInfo"
-          :key="currentIndex">
+          :key="currentIndex"
+        >
         </FilmList>
       </keep-alive>
     </section>
   </div>
 </template>
 <script>
-import http from "@/util/http.js"
-import CinemaSwiper from "@/components/CinemaSwiper"
-import CinemaSwiperItem from "@/components/CinemaSwiperItem"
-import imgTransition from "@/components/transition/imgTransition.vue"
+import http from '@/util/http.js'
+import FilmSwiper from '@/components/FilmSwiper'
+import ImgFade from '@/components/transition/ImgFade.vue'
 
 // import FilmList from '@/components/FilmList'
-import { Icon } from "vant"
+import { Icon } from 'vant'
 export default {
   data() {
     return {
       cinemaInfo: null,
       filmsInfo: [],
       currentIndex: 0,
-      window: window,
+      window: window
     }
   },
   components: {
     [Icon.name]: Icon,
-    CinemaSwiper,
-    CinemaSwiperItem,
-    FilmList: () => import("@/components/FilmList"),
-    imgTransition,
+    FilmSwiper,
+    FilmList: () => import('@/components/FilmList'),
+    ImgFade
   },
   methods: {
     filterActors(arr) {
@@ -111,46 +94,44 @@ export default {
         .map((v) => {
           return v.name
         })
-        .join(" ")
+        .join(' ')
     },
 
     current(index) {
       this.currentIndex = index
     },
     setSectionHeight() {
-      let header = document.querySelector("header")
+      let header = document.querySelector('header')
       document
-        .querySelector(".main")
-        .style.setProperty("--HeaderHeight", header.clientHeight + "px")
-    },
+        .querySelector('.main')
+        .style.setProperty('--HeaderHeight', header.clientHeight + 'px')
+    }
   },
   mounted() {
     Promise.all([
       http({
         url: `https://m.maizuo.com/gateway/?cinemaId=${this.$route.params.cinemaId}&k=4650178`,
         headers: {
-          "X-Host": "mall.film-ticket.cinema.info",
-        },
+          'X-Host': 'mall.film-ticket.cinema.info'
+        }
       }).then((res) => {
         this.cinemaInfo = res.data.data.cinema
       }),
       http({
         url: `https://m.maizuo.com/gateway/?cinemaId=${this.$route.params.cinemaId}&k=4650178`,
         headers: {
-          "X-Host": "mall.film-ticket.film.cinema-show-film",
-        },
+          'X-Host': 'mall.film-ticket.film.cinema-show-film'
+        }
       }).then((res) => {
         this.filmsInfo.push(...res.data.data.films)
         if (this.$store.state.filmId) {
-          this.currentIndex = this.filmsInfo.findIndex(
-            (v) => v.filmId === this.$store.state.filmId
-          )
+          this.currentIndex = this.filmsInfo.findIndex((v) => v.filmId === this.$store.state.filmId)
         }
-      }),
+      })
     ]).then(() => {
       this.setSectionHeight()
     })
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -256,7 +237,7 @@ header {
   padding: 15px 0;
 }
 .film-info::after {
-  content: "";
+  content: '';
   display: block;
   height: 0;
   width: 0;
@@ -302,5 +283,7 @@ header {
   right: 15px;
   top: 0;
   margin-top: 36px;
+  width: 4px;
+  height: 8px;
 }
 </style>

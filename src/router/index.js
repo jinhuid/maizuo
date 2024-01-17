@@ -12,7 +12,7 @@ const routes = [
   },
   {
     path: '/info',
-    component: () => import('@/views/info'),
+    component: () => import('@/views/Info/Info.vue'),
     meta: {
       isMain: true,
     }
@@ -43,7 +43,7 @@ const routes = [
   },
   {
     path: '/center',
-    component: () => import("@/views/Center"),
+    component: () => import("@/views/Center/Center.vue"),
     meta: {
       isMain: true,
     },
@@ -69,7 +69,7 @@ const routes = [
       {
         path: 'search',
         name: 'searchCinemas',
-        component: () => import('@/views/Cinemas/search')
+        component: () => import('@/views/Cinemas/Search')
       },
       {
         path: '',
@@ -83,7 +83,7 @@ const routes = [
   {
     name: '影院',
     path: '/cinemas/:cinemaId/film',
-    component: () => import('@/views/Cinemas/choiceCinema')
+    component: () => import('@/views/ChoiceCinema')
   },
   {
     path: '/Login',
@@ -99,7 +99,7 @@ const routes = [
   {
     name: '电影视图',
     path: '/detail/:myID/cinemas',
-    component: () => import('@/views/Films/filmView/filmCinemas'),
+    component: () => import('@/views/ShowcaseCinemas'),
     props: true           //上级路由传的this.$route.params属性会成为这个组件的props属性
   },
   {
