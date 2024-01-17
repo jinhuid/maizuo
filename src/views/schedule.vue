@@ -8,20 +8,19 @@
     </header>
 
     <section ref="section">
-      <Notice :noticeMsg="schedule.noticeMsg" />
-      <SeatingChart ref="map" :maxSeat="maxSeat">
+      <notice :noticeMsg="schedule.noticeMsg" />
+      <seating-chart ref="map" :maxSeat="maxSeat">
         <span v-if="sessions">{{ sessions[currentSession].hallName }}</span>
-      </SeatingChart>
+      </seating-chart>
     </section>
 
     <footer v-if="sessions" ref="footer">
-      <TagExplain v-show="!$store.state.chosen.length" class="tag" />
-      <FilmDetail
+      <tag-explain v-show="!$store.state.chosen.length" />
+      <film-detail
         :schedule="schedule"
         :sessions="sessions"
         :currentSession="currentSession" />
-        
-      <Submit :getTotal="getTotal" :session="sessions[currentSession]" />
+      <submit :session="sessions[currentSession]" />
     </footer>
   </div>
 </template>
@@ -29,12 +28,11 @@
 import { Icon } from "vant"
 import http from "@/util/http.js"
 import SeatingChart from "@/components/schedule/seatMap/map.vue"
-import TagExplain from "@/components/schedule/others/tagExplain"
-import Notice from "../components/schedule/others/notice.vue"
-import FilmDetail from "../components/schedule/filmDetail/filmDetail.vue"
-import Submit from "@/components/schedule/others/submit.vue"
+import TagExplain from "@/components/schedule/Others/TagExplain"
+import Notice from "../components/schedule/Others/Notice"
+import FilmDetail from "../components/schedule/filmDetail/filmDetail"
+import Submit from "@/components/schedule/Others/Submit"
 import EventBus from "@/util/eventBus"
-import { Toast } from "vant"
 export default {
   beforeRouteEnter(to, from, next) {
     if (localStorage.getItem("userPhone")) {
@@ -73,9 +71,7 @@ export default {
     this.ob.unobserve(this.$refs.footer)
   },
   methods: {
-    getTotal() {
-      if (this.$store.state.chosen.length) Toast("敬请期待!")
-    },
+    
     updateSession(index) {
       this.currentSession = index
       this.$refs.map.getSeatingChart(this.sessions[index].scheduleId)
@@ -149,9 +145,6 @@ footer {
   position: fixed;
   bottom: 10px;
   z-index: 20;
-}
-
-.tag {
-  margin-top: 10px;
+  padding-top: 10px;
 }
 </style>

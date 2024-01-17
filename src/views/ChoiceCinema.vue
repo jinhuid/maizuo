@@ -54,14 +54,14 @@
         />
       </div>
       <keep-alive>
-        <FilmList
+        <film-list
           v-if="cinemaInfo"
           :filmsInfo="filmsInfo"
           :currentIndex="currentIndex"
           :cinemaInfo="cinemaInfo"
           :key="currentIndex"
         >
-        </FilmList>
+      </film-list>
       </keep-alive>
     </section>
   </div>
@@ -134,6 +134,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .main {
   min-height: 100%;

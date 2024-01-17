@@ -10,8 +10,9 @@
   </div>
 </template>
 <script>
+import { Toast } from "vant"
 export default {
-  props: ["session", "getTotal"],
+  props: ["session"],
   computed: {
     total() {
       return (
@@ -20,15 +21,17 @@ export default {
       ).toFixed(2)
     },
   },
-  methods: {},
+  methods: {
+    getTotal() {
+      if (this.$store.state.chosen.length) Toast("敬请期待!")
+    },
+  },
 }
 </script>
 <style lang="scss" scoped>
 .container {
   padding: 0 10px;
   .confirm-btn {
-    // position: absolute;
-    // bottom: 0;
     border-radius: 45px;
     height: 45px;
     width: 100%;

@@ -8,7 +8,6 @@ import store from './store'
 import Swiper from "swiper/bundle";
 import "swiper/swiper.min.css";
 
-
 Vue.prototype.$Swiper = Swiper
 
 Vue.config.productionTip = false

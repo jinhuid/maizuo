@@ -2,20 +2,20 @@
   <div
     class="container"
     :class="{ [name]: true }"
-    :style="{ height, overflow: 'hidden', position: 'relative' }">
+    :style="{ height, overflow: 'hidden', position: 'relative' }"
+  >
     <ul ref="ul">
       <div v-for="item in cinemasData" :key="item.cinemaId">
         <li
           v-if="!isInclude || isInclude.cinemaList.includes(item.cinemaId)"
-          @click="choiceCinema(item.cinemaId)">
+          @click="choiceCinema(item.cinemaId)"
+        >
           <div class="cinema-info-contianer">
             <span class="cinema-info">{{ item.name }}</span>
             <span class="address cinema-info">{{ item.address }}</span>
           </div>
           <div>
-            <span style="color: var(--textColor)"
-              >￥{{ item.lowPrice / 100 }}起</span
-            >
+            <span style="color: var(--textColor)">￥{{ item.lowPrice / 100 }}起</span>
             <span style="text-align: right" class="address">距离未知</span>
           </div>
         </li>
@@ -24,9 +24,9 @@
   </div>
 </template>
 <script>
-import BScroll from "@better-scroll/core"
-import ScrollBar from "@better-scroll/scroll-bar"
-import MouseWheel from "@better-scroll/mouse-wheel"
+import BScroll from '@better-scroll/core'
+import ScrollBar from '@better-scroll/scroll-bar'
+import MouseWheel from '@better-scroll/mouse-wheel'
 BScroll.use(MouseWheel)
 BScroll.use(ScrollBar)
 
@@ -34,22 +34,22 @@ export default {
   props: {
     height: {
       type: String,
-      default: "0px",
+      default: '0px'
     },
     name: {
       type: String,
-      default: "box",
+      default: 'box'
     },
     isInclude: {
       type: Object,
-      default: null,
-    },
+      default: null
+    }
   },
   data() {
     return {
       bseg: null,
       cinemasData: this.$store.state.cinemasData,
-      executeAct: false,
+      executeAct: false
     }
   },
   created() {
@@ -67,7 +67,7 @@ export default {
         this.$refs.ul.style.transform = `translateY(0px)`
       })
     },
-    isInclude(){
+    isInclude() {
       this.init()
       this.$nextTick(() => {
         this.$refs.ul.style.transform = `translateY(0px)`
@@ -90,10 +90,10 @@ export default {
   methods: {
     init() {
       if (this._inactive) return
-      console.log("initList")
+      console.log('initList')
       this.bseg?.destroy()
       this.$nextTick(() => {
-        this.bseg = new BScroll("." + this.name, {
+        this.bseg = new BScroll('.' + this.name, {
           scrollbar: true,
           click: true,
           freeScroll: true,
@@ -101,20 +101,20 @@ export default {
           mouseWheel: {
             speed: 20,
             invert: false,
-            easeTime: 300,
-          },
+            easeTime: 300
+          }
         })
       })
     },
     choiceCinema(cinemaId) {
       this.$router.push({
-        name: "影院",
+        name: '影院',
         params: {
-          cinemaId,
-        },
+          cinemaId
+        }
       })
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

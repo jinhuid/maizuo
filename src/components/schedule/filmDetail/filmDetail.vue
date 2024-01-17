@@ -13,14 +13,14 @@
   </CinemaInfo>
 </template>
 <script>
-import SwitchList from "./component/switchList.vue"
-import Chosen from "./component/chosen.vue";
-import CinemaInfo from "./component/cinemaInfo.vue";
+import SwitchList from './component/switchList.vue'
+import Chosen from './component/chosen.vue'
+import CinemaInfo from './component/cinemaInfo.vue'
 export default {
-  props: ["schedule", "sessions","currentSession"],
-  computed:{
-    price(){
-      return this.sessions[this.currentSession].salePrice/ 100 
+  props: ['schedule', 'sessions', 'currentSession'],
+  computed: {
+    price() {
+      return this.sessions[this.currentSession].salePrice / 100
     }
   },
   components: {
@@ -28,7 +28,7 @@ export default {
     Chosen,
     CinemaInfo
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 // ::-webkit-scrollbar {

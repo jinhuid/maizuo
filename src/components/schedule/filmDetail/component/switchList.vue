@@ -1,5 +1,5 @@
 <template>
-    <ul>
+  <ul>
         <li
           v-for="(item, index) in sessions"
           :key="index"
@@ -15,25 +15,24 @@
       </ul>
 </template>
 <script>
-import getTime from "@/util/getTime.js"
-import EventBus from "@/util/eventBus"
+import getTime from '@/util/getTime.js'
+import EventBus from '@/util/eventBus'
 export default {
-  props: ["sessions", "currentSession"],
+  props: ['sessions', 'currentSession'],
   methods: {
     currentDate(time, arr) {
       return getTime(time, arr)
     },
     switchIndex(index) {
       if (index != this.currentSession) {
-        this.$store.commit("emptyChoices")
-        EventBus.$emit("update:currentSession", index)
+        this.$store.commit('emptyChoices')
+        EventBus.$emit('update:currentSession', index)
       }
-    },
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
-
 ul {
   width: 100%;
   height: 60px;
@@ -43,7 +42,7 @@ ul {
   position: relative;
   li {
     position: relative;
-    left: 1px;
+    // left: 1px;
     height: 100%;
     width: 70px;
     padding: 6px;
@@ -76,7 +75,7 @@ ul {
     }
   }
   li.select::after {
-    content: " ";
+    content: ' ';
     position: absolute;
     border: 1px solid #ff5f16;
     top: -50%;

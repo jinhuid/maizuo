@@ -24,19 +24,19 @@
   </footer>
 </template>
 <script>
-import "@/assets/font_3646397_en0apnd901j/iconfont.css";
+import '@/assets/font_3646397_en0apnd901j/iconfont.css'
 export default {
   data() {
     return {
       data: [
-        { path: "/films", name: "电影", icon: "icon-dianying" },
-        { path: "/cinemas", name: "影院", icon: "icon-yingyuan" },
-        { path: "/info", name: "资讯", icon: "icon-zixun" },
-        { path: "/center", name: "我的", icon: "icon-wode" },
-      ],
-    };
-  },
-};
+        { path: '/films', name: '电影', icon: 'icon-dianying' },
+        { path: '/cinemas', name: '影院', icon: 'icon-yingyuan' },
+        { path: '/info', name: '资讯', icon: 'icon-zixun' },
+        { path: '/center', name: '我的', icon: 'icon-wode' }
+      ]
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 footer {
@@ -61,10 +61,9 @@ footer {
         display: block;
         font-size: 24px;
       }
-
     }
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       top: 0;

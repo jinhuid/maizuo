@@ -1,9 +1,6 @@
 <template>
   <div class="seating-chart-wrap" v-if="seatingChart">
-    <div
-      v-if="mapWidth"
-      class="screen"
-      >
+    <div v-if="mapWidth" class="screen">
       <!-- transform:`translateX(${mapWidth*mapScale+tsfX}px) scale(${mapScale})` -->
       <img :src="screen" :style="{ width: `100%`, height: `100%` }" alt="" />
       <div class="info">
@@ -15,7 +12,8 @@
       class="rowNav"
       :style="{
         height: `${seatingChart.height * 24}px`
-      }">
+      }"
+    >
       <div v-for="item in seatingChart.height" :key="item">{{ item }}</div>
     </div>
 
@@ -23,34 +21,36 @@
       class="seating-chart"
       :style="{
         width: `${(seatingChart.width + seatInterval) * 24}px`,
-        height: `${(seatingChart.height + seatInterval) * 24}px`, //这里的数字为了在底部流出空隙
+        height: `${(seatingChart.height + seatInterval) * 24}px` //这里的数字为了在底部流出空隙
       }"
       @click="chooseSeat($event)"
-      ref="seatMap">
+      ref="seatMap"
+    >
       <Seat-icon
         v-for="(item, index) in seatingChart.seats"
         :key="index"
         :item="item"
         :index="index"
         :seatInterval="seatInterval"
-        class="seatBox">
+        class="seatBox"
+      >
       </Seat-icon>
     </div>
   </div>
 </template>
 <script>
-import { EasyScroller } from "easyscroller"
-import { Toast } from "vant"
-import http from "@/util/http"
-import SeatIcon from "@/components/schedule/seatMap/component/SeatIcon.vue"
-import screen from "@/assets/屏幕.png"
+import { EasyScroller } from 'easyscroller'
+import { Toast } from 'vant'
+import http from '@/util/http'
+import SeatIcon from '@/components/schedule/seatMap/component/SeatIcon.vue'
+import screen from '@/assets/屏幕.png'
 export default {
   components: { SeatIcon },
   props: {
-    maxSeat: { type: Number, require: true },
+    maxSeat: { type: Number, require: true }
   },
   component: {
-    SeatIcon,
+    SeatIcon
   },
   data() {
     return {
@@ -58,8 +58,8 @@ export default {
       seatInterval: 6,
       scroller: null,
       mapWidth: 0,
-      mapScale:1,
-      screen: screen,
+      mapScale: 1,
+      screen: screen
     }
   },
   mounted() {
@@ -67,18 +67,15 @@ export default {
   },
   methods: {
     getSeatingChart(scheduleId) {
-
       http({
         url: `/gateway/?scheduleId=${scheduleId}&k=4878872`,
         headers: {
-          "X-Host": "mall.film-ticket.seat.list",
-        },
+          'X-Host': 'mall.film-ticket.seat.list'
+        }
       }).then((res) => {
         this.seatingChart = res.data.data.seatingChart
         this.mapScale =
-          document.documentElement.clientWidth /
-          (this.seatingChart.width + this.seatInterval) /
-          24;
+          document.documentElement.clientWidth / (this.seatingChart.width + this.seatInterval) / 24
         this.mapWidth = ((this.seatingChart.width + this.seatInterval) * 24) / 2
         this.$nextTick(() => {
           this.refreshMap()
@@ -86,27 +83,27 @@ export default {
       })
     },
     chooseSeat(e) {
-      if (e.target.children[0].tagName !== "IMG") return
-      
-      const index = e.target.children[0].getAttribute("index")
+      if (e.target.children[0].tagName !== 'IMG') return
+
+      const index = e.target.children[0].getAttribute('index')
       const seat = this.seatingChart.seats[index]
       //未被占用and未损坏
       if (seat.isBroken || seat.isOccupied) return
 
-      if (!seat.hasOwnProperty("isChoose")) {
-        this.$set(seat, "isChoose", false)
+      if (!Object.hasOwn(seat, 'isChoose')) {
+        this.$set(seat, 'isChoose', false)
       }
 
       if (seat.isChoose) {
         // 点击了被选中的座位
-        this.$store.commit("chosenDeleteOne", seat)
+        this.$store.commit('chosenDeleteOne', seat)
       } else {
         // 点击空的座位 是否超过最大限购
         if (this.$store.state.chosen.length >= this.maxSeat) {
           Toast(`最多只能选择${this.maxSeat}个座位`)
           return
         } else {
-          this.$store.commit("chosenPushOne", seat)
+          this.$store.commit('chosenPushOne', seat)
         }
       }
     },
@@ -115,23 +112,28 @@ export default {
         this.scroller.destroy()
       }
       let _this = this
-      let element = document.querySelector(".seating-chart")
-      this.scroller = new EasyScroller(element,_this.mapWidth, {
-        // scrollingX: false,
-        // scrollingY: false,
-        // bouncing:false,
-        // speedMultiplier:1,
-        // animationDuration:5,
-        zooming: true,
-        minZoom: _this.mapScale,
-        maxZoom: 2,
-        zoomLevel: _this.mapScale,
-        // animating: true,
-      },(left,top,zoom)=>{
-        console.log(left,top,zoom);
-      })
-    },
-  },
+      let element = document.querySelector('.seating-chart')
+      this.scroller = new EasyScroller(
+        element,
+        _this.mapWidth,
+        {
+          // scrollingX: false,
+          // scrollingY: false,
+          // bouncing:false,
+          // speedMultiplier:1,
+          // animationDuration:5,
+          zooming: true,
+          minZoom: _this.mapScale,
+          maxZoom: 2,
+          zoomLevel: _this.mapScale
+          // animating: true,
+        },
+        (left, top, zoom) => {
+          console.log(left, top, zoom)
+        }
+      )
+    }
+  }
 }
 </script>
 <style scoped lang="scss">

@@ -1,9 +1,9 @@
 <template>
-        <section></section>
+  <section></section>
 </template>
 <style scoped>
-section{
-    height: 49px;
-    width: 100%;
+section {
+  height: 49px;
+  width: 100%;
 }
 </style>
