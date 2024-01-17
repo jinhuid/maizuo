@@ -17,8 +17,8 @@
       <!-- </ul> -->
 
       <!-- <keep-alive>
-  <router-view></router-view>
-</keep-alive> -->
+            <router-view></router-view>
+          </keep-alive> -->
 
       <transition name="h" mode="out-in">
          <keep-alive include="cinemas"> 
@@ -62,7 +62,6 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* user-select:auto; */
 }
 :root{
   --textColor:#ff5f16;

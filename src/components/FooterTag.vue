@@ -25,12 +25,9 @@
 </template>
 <script>
 import "@/assets/font_3646397_en0apnd901j/iconfont.css";
-// import '//at.alicdn.com/t/c/font_3646397_v8opvkww27k.css'
-
 export default {
   data() {
     return {
-      // data:['/#/films','/#/center','/#/cinemas']
       data: [
         { path: "/films", name: "电影", icon: "icon-dianying" },
         { path: "/cinemas", name: "影院", icon: "icon-yingyuan" },
@@ -67,7 +64,7 @@ footer {
 
     }
     &::before {
-      content: " ";
+      content: "";
       position: absolute;
       left: 0;
       top: 0;

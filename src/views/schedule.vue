@@ -35,7 +35,6 @@ import FilmDetail from "../components/schedule/filmDetail/filmDetail.vue"
 import Submit from "@/components/schedule/others/submit.vue"
 import EventBus from "@/util/eventBus"
 import { Toast } from "vant"
-import SwitchList from "@/components/schedule/filmDetail/component/switchList.vue"
 export default {
   beforeRouteEnter(to, from, next) {
     if (localStorage.getItem("userPhone")) {
@@ -62,8 +61,7 @@ export default {
     TagExplain,
     Notice,
     FilmDetail,
-    Submit,
-    SwitchList
+    Submit
 },
   mounted() {
     EventBus.$on("update:currentSession", this.updateSession)

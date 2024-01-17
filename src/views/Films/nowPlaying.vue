@@ -1,7 +1,6 @@
 <template>
   <div>
     <ul class="filmsDetail" v-if="dataList.length">
-      
       <li
         v-for="item in dataList"
         :key="item.filmId"

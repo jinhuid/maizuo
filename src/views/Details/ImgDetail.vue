@@ -1,17 +1,19 @@
 <template>
   <div
     v-if="dataList"
-    class="img"
+    class="bg"
     :style="{ backgroundImage: `url(${dataList.poster})` }"
   ></div>
 </template>
-            <script>
+            
+            
+<script>
 export default {
   props: ["dataList"],
 };
 </script>
 <style scoped lang='scss'>
-.img {
+.bg {
   width: 100%;
   height: 218.4px;
   background-position: center;
