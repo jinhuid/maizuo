@@ -1,9 +1,7 @@
 <template>
   <div v-if="schedule" class="main">
     <header ref="header">
-      <span
-        ><van-icon name="arrow-left" size="24" @click="$router.back()"
-      /></span>
+      <span><van-icon name="arrow-left" size="24" @click="$router.back()" /></span>
       {{ schedule.cinema.name }}
     </header>
 
@@ -16,31 +14,28 @@
 
     <footer v-if="sessions" ref="footer">
       <tag-explain v-show="!$store.state.chosen.length" />
-      <film-detail
-        :schedule="schedule"
-        :sessions="sessions"
-        :currentSession="currentSession" />
+      <film-detail :schedule="schedule" :sessions="sessions" :currentSession="currentSession" />
       <submit :session="sessions[currentSession]" />
     </footer>
   </div>
 </template>
 <script>
-import { Icon } from "vant"
-import http from "@/util/http.js"
-import SeatingChart from "@/components/schedule/seatMap/map.vue"
-import TagExplain from "@/components/schedule/Others/TagExplain"
-import Notice from "../components/schedule/Others/Notice"
-import FilmDetail from "../components/schedule/filmDetail/filmDetail"
-import Submit from "@/components/schedule/Others/Submit"
-import EventBus from "@/util/eventBus"
+import { Icon } from 'vant'
+import http from '@/util/http.js'
+import SeatingChart from './SeatingChart.vue'
+import TagExplain from './TagExplain.vue'
+import Notice from './Notice.vue'
+import FilmDetail from './filmDetail/FilmDetail'
+import Submit from './Submit.vue'
+import EventBus from '@/util/eventBus'
 export default {
   beforeRouteEnter(to, from, next) {
-    if (localStorage.getItem("userPhone")) {
+    if (localStorage.getItem('userPhone')) {
       next()
     } else {
       next({
-        path: "/Login",
-        query: { redirect: to.fullPath },
+        path: '/Login',
+        query: { redirect: to.fullPath }
       })
     }
   },
@@ -50,7 +45,7 @@ export default {
       sessions: null,
       currentSession: 0,
       maxSeat: 5,
-      ob: null,
+      ob: null
     }
   },
   components: {
@@ -60,18 +55,17 @@ export default {
     Notice,
     FilmDetail,
     Submit
-},
+  },
   mounted() {
-    EventBus.$on("update:currentSession", this.updateSession)
+    EventBus.$on('update:currentSession', this.updateSession)
     this.getSchedule(this.$route.params.scheduleId)
   },
   beforeDestroy() {
-    EventBus.$off("update:currentSession")
-    this.$store.commit("emptyChoices")
+    EventBus.$off('update:currentSession')
+    this.$store.commit('emptyChoices')
     this.ob.unobserve(this.$refs.footer)
   },
   methods: {
-    
     updateSession(index) {
       this.currentSession = index
       this.$refs.map.getSeatingChart(this.sessions[index].scheduleId)
@@ -81,8 +75,8 @@ export default {
       http({
         url: `/gateway/?scheduleId=${scheduleId}&k=4878872`,
         headers: {
-          "X-Host": "mall.film-ticket.schedule.info",
-        },
+          'X-Host': 'mall.film-ticket.schedule.info'
+        }
       }).then((res) => {
         res = res.data.data.schedule
         this.schedule = res
@@ -93,28 +87,23 @@ export default {
       http({
         url: `/gateway/?filmId=${filmId}&cinemaId=${cinemaId}&date=${date}&k=1024902`,
         headers: {
-          "X-Host": "mall.film-ticket.schedule.list",
-          "X-Token":
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZ2VudElkIjoiMzAwMCIsInRpbWVzdGFtcCI6MTY2NDM0NzU3NCwidXNlcklkIjozMTkyMDU5N30.25T6y93Pt5RFo5U-Z5jJBtkKIo4RATWrY-vcHHmXSD4",
-        },
+          'X-Host': 'mall.film-ticket.schedule.list',
+        }
       }).then((res) => {
         this.sessions = res.data.data.schedules
-        this.currentSession = this.sessions.findIndex(
-          (index) => index.showAt === date
-        )
+        this.currentSession = this.sessions.findIndex((index) => index.showAt === date)
         this.$nextTick(() => {
           let headerHeight = this.$refs.header.clientHeight
           this.ob = new ResizeObserver((entries) => {
             // entries是所有被观察的元素的数组
             const { height } = entries[0].contentRect
-            this.$refs.section.style.height =
-              window.innerHeight - headerHeight - height + "px"
+            this.$refs.section.style.height = window.innerHeight - headerHeight - height + 'px'
           })
           this.ob.observe(this.$refs.footer)
         })
       })
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

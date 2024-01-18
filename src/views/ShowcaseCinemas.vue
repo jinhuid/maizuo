@@ -39,7 +39,6 @@
             </li>
           </ul>
         </van-popup>
-
         <CinemaList
           class="popupContainer"
           :class="[`tabList${index}`]"
@@ -115,11 +114,13 @@ export default {
       this.DistrictName = [...new Set(this.$store.state.cinemasData.map((i) => i.districtName))].sort()
     },
     selectDistrict(district, index) {
+      // if(district===this.district)return
       this.district = district
       this.active = index
       this.show = false
     },
     filterShowCinemas(index) {
+      console.log(index);
       if (this.district == '全城') {
         return this.showCinemas[index]
       } else {

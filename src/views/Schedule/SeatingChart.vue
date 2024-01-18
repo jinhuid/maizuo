@@ -32,7 +32,7 @@
         :item="item"
         :index="index"
         :seatInterval="seatInterval"
-        class="seatBox"
+        :size="24"
       >
       </Seat-icon>
     </div>
@@ -42,7 +42,7 @@
 import { EasyScroller } from 'easyscroller'
 import { Toast } from 'vant'
 import http from '@/util/http'
-import SeatIcon from '@/components/schedule/seatMap/component/SeatIcon.vue'
+import SeatIcon from './SeatIcon'
 import screen from '@/assets/屏幕.png'
 export default {
   components: { SeatIcon },
@@ -83,9 +83,9 @@ export default {
       })
     },
     chooseSeat(e) {
-      if (e.target.children[0].tagName !== 'IMG') return
+      if (e.target.tagName !== 'IMG') return
 
-      const index = e.target.children[0].getAttribute('index')
+      const index = e.target.dataset.index
       const seat = this.seatingChart.seats[index]
       //未被占用and未损坏
       if (seat.isBroken || seat.isOccupied) return
@@ -145,18 +145,6 @@ export default {
   height: 100%;
 }
 
-.seating-chart {
-  .seatBox {
-    position: absolute;
-    height: 24px;
-    width: 24px;
-    transition: all 0.5s cubic-bezier(1, 0, 0, 1);
-    padding: 1.5008px;
-    // -webkit-touch-callout: none;
-    touch-action: none;
-  }
-}
-
 .rowNav {
   transform-origin: 0 0;
   width: 1em;
@@ -194,3 +182,4 @@ export default {
   z-index: 9999;
 }
 </style>
+./SeatIcon.js

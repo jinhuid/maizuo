@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/schedule/:scheduleId',
-    component: () => import('@/views/schedule'),
+    component: () => import('@/views/Schedule/Schedule.vue'),
     name: 'schedule'
   },
   {

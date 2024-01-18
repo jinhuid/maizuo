@@ -1,18 +1,18 @@
 <template>
   <ul>
-        <li
-          v-for="(item, index) in sessions"
-          :key="index"
-          :class="{ select: currentSession == index }"
-          @click="switchIndex(index)"
-        >
-          <div class="start-at">
-            {{ currentDate(item.showAt * 1000, ["hour", "minute"]) }}
-          </div>
-          <div class="language">{{ item.filmLanguage }}{{ item.imagery }}</div>
-          <div class="price">￥{{ item.salePrice / 100 }}</div>
-        </li>
-      </ul>
+    <li
+      v-for="(item, index) in sessions"
+      :key="index"
+      :class="{ select: currentSession == index }"
+      @click="switchIndex(index)"
+    >
+      <div class="start-at">
+        {{ currentDate(item.showAt * 1000, ['hour', 'minute']) }}
+      </div>
+      <div class="language">{{ item.filmLanguage }}{{ item.imagery }}</div>
+      <div class="price">￥{{ item.salePrice / 100 }}</div>
+    </li>
+  </ul>
 </template>
 <script>
 import getTime from '@/util/getTime.js'
@@ -40,9 +40,12 @@ ul {
   display: flex;
   overflow-x: scroll;
   position: relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   li {
     position: relative;
-    // left: 1px;
+    left: 1px;
     height: 100%;
     width: 70px;
     padding: 6px;

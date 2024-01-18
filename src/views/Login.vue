@@ -1,9 +1,7 @@
 <template>
   <div class="main">
     <div class="logo">
-      <img
-        src="https://assets.maizuo.com/h5/mz-auth/public/app/img/logo.19ca0be.png"
-        alt="" />
+      <img src="https://assets.maizuo.com/h5/mz-auth/public/app/img/logo.19ca0be.png" alt="" />
     </div>
     <div class="login-form">
       <div class="form-group">
@@ -12,52 +10,46 @@
           @input="phoneNumber($event)"
           placeholder="手机号"
           v-model="phone"
-          maxlength="13" />
+          maxlength="13"
+        />
         <div class="tip">验证码随机6位</div>
       </div>
       <div class="form-group">
         <input type="Number" placeholder="验证码" v-model="Verification" />
       </div>
-      <div
-        class="submit"
-        @click="submit"
-        :class="{ canSubmit: phone && Verification }">
-        登录
-      </div>
+      <div class="submit" @click="submit" :class="{ canSubmit: phone && Verification }">登录</div>
     </div>
     <!-- <input type="submit" @click="sub"> -->
   </div>
 </template>
 <script>
-import { Toast } from "vant"
+import { Toast } from 'vant'
 export default {
   data() {
     return {
-      phone: "",
-      Verification: "",
+      phone: '',
+      Verification: ''
     }
   },
   methods: {
     submit() {
       // let test = this.phone.replace(/\s*/g,"")*1
-      if (
-        !/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.phone.replace(/\s*/g, ""))
-      ) {
-        Toast.fail("请输入正确的号码")
+      if (!/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.phone.replace(/\s*/g, ''))) {
+        Toast.fail('请输入正确的号码')
         return false
       } else if (this.Verification.length != 6) {
-        Toast.fail("验证码为6位")
+        Toast.fail('验证码为6位')
         return false
       }
-      localStorage.setItem("userPhone", this.phone.replace(/\s*/g, ""))
+      localStorage.setItem('userPhone', this.phone.replace(/\s*/g, ''))
       Toast.success({
-        message: "登录成功",
+        message: '登录成功',
 
         onClose: () => {
           this.$router.push(this.$route.query.redirect)
 
           // this.$router.back()
-        },
+        }
       })
     },
     phoneNumber() {
@@ -65,20 +57,20 @@ export default {
       let len = this.phone.length
       if (len == 5 || len == 10) {
         let arr = [...this.phone]
-        arr.splice(this.phone.length - 2, 0, " ")
-        this.phone = arr.join("")
+        arr.splice(this.phone.length - 2, 0, ' ')
+        this.phone = arr.join('')
       }
     },
     sub() {
-      localStorage.setItem("token", "hello")
+      localStorage.setItem('token', 'hello')
       // this.$router.push('/center')
       // this.$router.back()      返回
 
       console.log(this.$route)
-      this.$router.push(this.$route.query.redirect || "/center")
+      this.$router.push(this.$route.query.redirect || '/center')
       // this.$router.push(this.$route.query.redirect)
-    },
-  },
+    }
+  }
 }
 </script>
 <style scoped lang="scss">

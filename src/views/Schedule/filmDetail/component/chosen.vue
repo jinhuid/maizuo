@@ -26,6 +26,9 @@ export default {
   display: flex;
   overflow-x: scroll;
   position: relative;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .choose-item {
     position: relative;
     background-color: hsla(0, 0%, 95.7%, 0.6);

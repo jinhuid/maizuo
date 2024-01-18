@@ -20,6 +20,9 @@
           </div>
         </li>
       </div>
+      <div v-if="isInclude !== null &&!isInclude.cinemaList.length">
+        暂无影院
+      </div>
     </ul>
   </div>
 </template>
