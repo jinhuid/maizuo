@@ -105,7 +105,7 @@ export default {
   },
   methods: {
     getCinemaListHeight() {
-      return (this.height = window.innerHeight - 88 - 51 + 'px')
+      return (this.height = window.innerHeight - 88 - 49 + 'px')
     },
     calculation() {
       return this.showCinemas.map((data) => getTime(data.showDate * 1000, ['week', 'month', 'day']))
