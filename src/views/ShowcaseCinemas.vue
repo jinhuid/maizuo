@@ -120,7 +120,6 @@ export default {
       this.show = false
     },
     filterShowCinemas(index) {
-      console.log(index);
       if (this.district == '全城') {
         return this.showCinemas[index]
       } else {

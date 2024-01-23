@@ -2,7 +2,7 @@
   <CinemaInfo :session="sessions[currentSession]">
     <template #default>{{ schedule.film.name }}</template>
     <template #SwitchList="{ isDown }">
-      <SwitchList v-show="isDown" :sessions="sessions" :currentSession="currentSession">
+      <SwitchList :isDown="isDown" :sessions="sessions" :currentSession="currentSession">
       </SwitchList>
     </template>
     <template #Chosen>

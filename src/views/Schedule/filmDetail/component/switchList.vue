@@ -1,5 +1,5 @@
 <template>
-  <ul>
+  <ul :style="{ height: isDown ? '60px' : '0px',transition:'.2s' }">
     <li
       v-for="(item, index) in sessions"
       :key="index"
@@ -7,7 +7,7 @@
       @click="switchIndex(index)"
     >
       <div class="start-at">
-        {{ currentDate(item.showAt * 1000, ['hour', 'minute']) }}
+        {{ currentDate(item.showAt * 1000, ['hour', ':', 'minute']) }}
       </div>
       <div class="language">{{ item.filmLanguage }}{{ item.imagery }}</div>
       <div class="price">￥{{ item.salePrice / 100 }}</div>
@@ -18,7 +18,7 @@
 import getTime from '@/util/getTime.js'
 import EventBus from '@/util/eventBus'
 export default {
-  props: ['sessions', 'currentSession'],
+  props: ['sessions', 'currentSession', 'isDown'],
   methods: {
     currentDate(time, arr) {
       return getTime(time, arr)

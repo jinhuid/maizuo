@@ -10,7 +10,18 @@
           </span>
         </div>
         <div class="film-des">
-          {{ currenDate(session.showAt * 1000, ['week', 'month', 'day', 'hour', 'minute']) }}
+          {{
+            currenDate(session.showAt * 1000, [
+              'week',
+              ' ',
+              'month',
+              'day',
+              ' ',
+              'hour',
+              ':',
+              'minute'
+            ])
+          }}
           {{ session.filmLanguage }}{{ session.imagery }}
         </div>
         <slot name="SwitchList" :isDown="!isDown"></slot>

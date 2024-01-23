@@ -16,9 +16,6 @@
               </router-link> -->
       <!-- </ul> -->
 
-      <!-- <keep-alive>
-            <router-view></router-view>
-          </keep-alive> -->
 
       <transition name="h" mode="out-in">
          <keep-alive include="cinemas"> 
@@ -27,14 +24,13 @@
       </transition>
       
       <transition name="h" mode="out-in" :appear="true">
-          <Footer-tag  v-if="this.$store.state.isFooterShow"></Footer-tag>
+          <tab-bar  v-if="this.$store.state.isFooterShow"></tab-bar>
       </transition>
-      <!-- <Footer-tag class="footer"></Footer-tag> -->
   </div>
 </template>
 <script>
 // console.log(location.hash);
-import FooterTag from '@/components/FooterTag'
+import TabBar from '@/components/TabBar'
 import 'vant/lib/index.css';
 export default {
 
@@ -44,15 +40,9 @@ export default {
           data: ['/films', '/center', '/cinemas']// router-link
       }
   },
-  // mounted() {
-  // // window.onresize = () => {
-  // //             document.documentElement.style.fontSize = document.documentElement.clientWidth / 390 * 16
-  // //             + 'px';
-  // // }
-  // window.onresize()
-  // },
+
   components: {
-      FooterTag
+    TabBar
   }
 }
 </script>

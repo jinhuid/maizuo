@@ -19,7 +19,6 @@
       </div>
       <div class="submit" @click="submit" :class="{ canSubmit: phone && Verification }">登录</div>
     </div>
-    <!-- <input type="submit" @click="sub"> -->
   </div>
 </template>
 <script>
@@ -33,7 +32,7 @@ export default {
   },
   methods: {
     submit() {
-      // let test = this.phone.replace(/\s*/g,"")*1
+      
       if (!/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.phone.replace(/\s*/g, ''))) {
         Toast.fail('请输入正确的号码')
         return false
@@ -60,15 +59,6 @@ export default {
         arr.splice(this.phone.length - 2, 0, ' ')
         this.phone = arr.join('')
       }
-    },
-    sub() {
-      localStorage.setItem('token', 'hello')
-      // this.$router.push('/center')
-      // this.$router.back()      返回
-
-      console.log(this.$route)
-      this.$router.push(this.$route.query.redirect || '/center')
-      // this.$router.push(this.$route.query.redirect)
     }
   }
 }

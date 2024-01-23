@@ -11,16 +11,22 @@ const getTime = function (time, arr) {
 
     const now = Date.now()
 
-    const timeDiff = (time - now) / 1000
-    if (timeDiff >= -86400 && timeDiff < 0) {
-        computed.week = "今天"
-    } else if (timeDiff >= 0 && timeDiff < 86400) {
-        computed.week = "明天"
-    } else if (timeDiff >= 86400 && timeDiff < 86400 * 2) {
-        computed.week = "后天"
+    if (arr.includes('week')) {
+        time = time - computed.hour * 3.6e6 - computed.minute * 6e4
+        const timeDiff = (time - now) / 1000
+        if (timeDiff >= -86400 && timeDiff < 0) {
+            computed.week = "今天"
+        } else if (timeDiff >= 0 && timeDiff < 86400) {
+            computed.week = "明天"
+        } else if (timeDiff >= 86400 && timeDiff < 86400 * 2) {
+            computed.week = "后天"
+        }
     }
     return arr.map(item => computed[item] || item).join("")
 }
-// console.log(getTime(1680796800000, ["week", "month", "day", "hour", ':', "minute"]));
+
+// console.log(getTime(1705593600000, ["week", "month", "day", "hour", ':', "minute"]));
 // console.log(getTime(1681003800000, ["week", "month", "day", "hour", "minute"]));
+
+// console.log(getTime(69600000,['hour',';','minute']));
 module.exports = getTime

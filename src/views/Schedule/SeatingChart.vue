@@ -1,17 +1,18 @@
 <template>
   <div class="seating-chart-wrap" v-if="seatingChart">
-    <div v-if="mapWidth" class="screen">
+    <div v-if="mapWidth" class="screen" ref="screen">
       <!-- transform:`translateX(${mapWidth*mapScale+tsfX}px) scale(${mapScale})` -->
       <img :src="screen" :style="{ width: `100%`, height: `100%` }" alt="" />
-      <div class="info">
+      <div class="info" ref="infoBox">
         <slot></slot>
       </div>
     </div>
 
     <div
       class="rowNav"
+      ref="rowNav"
       :style="{
-        height: `${seatingChart.height * 24}px`
+        height: `${seatingChart.height * seatSize}px`
       }"
     >
       <div v-for="item in seatingChart.height" :key="item">{{ item }}</div>
@@ -20,8 +21,8 @@
     <div
       class="seating-chart"
       :style="{
-        width: `${(seatingChart.width + seatInterval) * 24}px`,
-        height: `${(seatingChart.height + seatInterval) * 24}px` //这里的数字为了在底部流出空隙
+        width: `${(seatingChart.width + seatInterval) * seatSize}px`,
+        height: `${(seatingChart.height + seatInterval) * seatSize}px` //这里的数字为了在底部流出空隙
       }"
       @click="chooseSeat($event)"
       ref="seatMap"
@@ -32,26 +33,25 @@
         :item="item"
         :index="index"
         :seatInterval="seatInterval"
-        :size="24"
+        :size="seatSize"
       >
       </Seat-icon>
     </div>
   </div>
 </template>
 <script>
-import { EasyScroller } from 'easyscroller'
+// 这个库的还是缺少了一些feature 所以把他放在util中进行简单功能添加
+import { EasyScroller } from '@/util/easyscroller'
 import { Toast } from 'vant'
 import http from '@/util/http'
 import SeatIcon from './SeatIcon'
 import screen from '@/assets/屏幕.png'
+
 export default {
-  components: { SeatIcon },
   props: {
     maxSeat: { type: Number, require: true }
   },
-  component: {
-    SeatIcon
-  },
+  components: { SeatIcon },
   data() {
     return {
       seatingChart: null,
@@ -59,7 +59,9 @@ export default {
       scroller: null,
       mapWidth: 0,
       mapScale: 1,
-      screen: screen
+      screen: screen,
+      // 如果看不到变化 是因为初始化的scale太小
+      seatSize: 24
     }
   },
   mounted() {
@@ -75,8 +77,10 @@ export default {
       }).then((res) => {
         this.seatingChart = res.data.data.seatingChart
         this.mapScale =
-          document.documentElement.clientWidth / (this.seatingChart.width + this.seatInterval) / 24
-        this.mapWidth = ((this.seatingChart.width + this.seatInterval) * 24) / 2
+          document.documentElement.clientWidth /
+          (this.seatingChart.width + this.seatInterval) /
+          this.seatSize
+        this.mapWidth = ((this.seatingChart.width + this.seatInterval) * this.seatSize) / 2
         this.$nextTick(() => {
           this.refreshMap()
         })
@@ -98,12 +102,11 @@ export default {
         // 点击了被选中的座位
         this.$store.commit('chosenDeleteOne', seat)
       } else {
-        // 点击空的座位 是否超过最大限购
-        if (this.$store.state.chosen.length >= this.maxSeat) {
-          Toast(`最多只能选择${this.maxSeat}个座位`)
-          return
-        } else {
+        // 点击空的座位 没有超过最大限购
+        if (this.$store.state.chosen.length < this.maxSeat) {
           this.$store.commit('chosenPushOne', seat)
+        } else {
+          Toast(`最多只能选择${this.maxSeat}个座位`)
         }
       }
     },
@@ -112,10 +115,9 @@ export default {
         this.scroller.destroy()
       }
       let _this = this
-      let element = document.querySelector('.seating-chart')
+      let ele = document.querySelector('.seating-chart')
       this.scroller = new EasyScroller(
-        element,
-        _this.mapWidth,
+        ele,
         {
           // scrollingX: false,
           // scrollingY: false,
@@ -129,7 +131,9 @@ export default {
           // animating: true,
         },
         (left, top, zoom) => {
-          console.log(left, top, zoom)
+          _this.$refs.rowNav.style.transform = `translate3d(0px,${-top}px,0px) scaleY(${zoom})`
+          _this.$refs.screen.style.transform = `translate3d(${_this.mapWidth * zoom - left}px,0px,0) scale(${zoom})`
+          _this.$refs.infoBox.style.transform = `scale(${1 / zoom})`
         }
       )
     }
@@ -182,4 +186,3 @@ export default {
   z-index: 9999;
 }
 </style>
-./SeatIcon.js

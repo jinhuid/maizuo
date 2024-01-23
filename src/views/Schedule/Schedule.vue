@@ -1,18 +1,18 @@
 <template>
   <div v-if="schedule" class="main">
-    <header ref="header">
+    <header>
       <span><van-icon name="arrow-left" size="24" @click="$router.back()" /></span>
       {{ schedule.cinema.name }}
     </header>
 
-    <section ref="section">
+    <section>
       <notice :noticeMsg="schedule.noticeMsg" />
       <seating-chart ref="map" :maxSeat="maxSeat">
         <span v-if="sessions">{{ sessions[currentSession].hallName }}</span>
       </seating-chart>
     </section>
 
-    <footer v-if="sessions" ref="footer">
+    <footer v-if="sessions">
       <tag-explain v-show="!$store.state.chosen.length" />
       <film-detail :schedule="schedule" :sessions="sessions" :currentSession="currentSession" />
       <submit :session="sessions[currentSession]" />
@@ -45,7 +45,6 @@ export default {
       sessions: null,
       currentSession: 0,
       maxSeat: 5,
-      ob: null
     }
   },
   components: {
@@ -63,7 +62,6 @@ export default {
   beforeDestroy() {
     EventBus.$off('update:currentSession')
     this.$store.commit('emptyChoices')
-    this.ob.unobserve(this.$refs.footer)
   },
   methods: {
     updateSession(index) {
@@ -92,21 +90,25 @@ export default {
       }).then((res) => {
         this.sessions = res.data.data.schedules
         this.currentSession = this.sessions.findIndex((index) => index.showAt === date)
-        this.$nextTick(() => {
-          let headerHeight = this.$refs.header.clientHeight
-          this.ob = new ResizeObserver((entries) => {
-            // entries是所有被观察的元素的数组
-            const { height } = entries[0].contentRect
-            this.$refs.section.style.height = window.innerHeight - headerHeight - height + 'px'
-          })
-          this.ob.observe(this.$refs.footer)
-        })
       })
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+
+.main{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  section{
+    flex-grow: 1;
+    overflow: scroll;
+    &::-webkit-scrollbar{
+      display: none;
+    }
+  }
+}
 header {
   background: #fff;
   height: 44px;
@@ -131,9 +133,9 @@ footer {
   justify-content: flex-end;
   background: #f6f6f6;
   width: 100%;
-  position: fixed;
-  bottom: 10px;
+  // position: fixed;
+  // bottom: 10px;
   z-index: 20;
-  padding-top: 10px;
+  padding: 10px 0;
 }
 </style>
