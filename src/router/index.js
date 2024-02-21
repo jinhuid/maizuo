@@ -57,7 +57,7 @@ const routes = [
   {
     path: '/city',
     name: 'city',
-    component: () => import('@/views/Cinemas/City')
+    component: () => import('@/views/City')
   },
   {
     path: '/cinemas',
@@ -69,11 +69,11 @@ const routes = [
       {
         path: 'search',
         name: 'searchCinemas',
-        component: () => import('@/views/Cinemas/Search')
+        component: () => import('@/components/SearchCinemas')
       },
       {
         path: '',
-        component: () => import("@/components/CinemaList.vue"),
+        component: () => import("@/components/CinemaList"),
         meta: {
           isMain: true,
         }
