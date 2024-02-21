@@ -1,21 +1,17 @@
 <template>
   <div>
-    <ul class="filmsDetail" >
+    <ul class="filmsDetail">
       <li
         v-for="item in dataList"
         :key="item.filmId"
         @click="handleChangePage(item.filmId)"
         v-lazy="item"
       >
-      <div class="imgBox">
-        <ImgFade>
-          
-            <div v-show="item.show">
-              <img :src="item.show?item.poster:''" alt="" />
-            </div>
-          
-        </ImgFade>
-      </div>
+        <div class="imgBox">
+          <ImgFade>
+            <img v-show="item.show" :src="item.poster" alt="" />
+          </ImgFade>
+        </div>
         <div class="FilmInformation">
           <div>
             <span class="name">{{ item.name }} </span
@@ -27,9 +23,7 @@
               ><span v-else>暂无人员</span></span
             >
           </div>
-          <div class="label">
-            上映日期：{{getDate(item.premiereAt*1000)}}
-          </div>
+          <div class="label">上映日期：{{ getDate(item.premiereAt * 1000) }}</div>
         </div>
         <div class="buy" v-if="item.isPresale">预售</div>
       </li>
@@ -38,16 +32,16 @@
   </div>
 </template>
 <script>
-import http from "@/util/http.js";
-import Vue from "vue";
-import lazy from '@/util/lazy';
-import getTime from '@/util/getTime';
-import ImgFade from '@/components/transition/ImgFade.vue'
+import http from "@/util/http.js"
+import Vue from "vue"
+import lazy from "@/util/lazy"
+import getTime from "@/util/getTime"
+import ImgFade from "@/components/transition/ImgFade.vue"
 
-Vue.directive('lazy',lazy)
+Vue.directive("lazy", lazy)
 Vue.filter("actors", (v) => {
-  return v.map((item) => item.name).join(" ");
-});
+  return v.map((item) => item.name).join(" ")
+})
 
 export default {
   data() {
@@ -55,62 +49,57 @@ export default {
       dataList: [],
       page: 1,
       tag: true,
-      show:false
-    };
+      show: false
+    }
   },
-  components:{
+  components: {
     ImgFade
   },
   methods: {
-    getDate(timeStamp){
-      return getTime(timeStamp,['week',' ','month','day'])
+    getDate(timeStamp) {
+      return getTime(timeStamp, ["week", " ", "month", "day"])
     },
     handleChangePage(id) {
-
-      this.$store.commit('footerHide')
+      this.$store.commit("footerHide")
       this.$router.push({
         name: "详情", //跳往组件的名字
         params: {
-          myID: id,
-        },
-      });
+          myID: id
+        }
+      })
     },
     sendRequest() {
-      this.tag = false;
+      this.tag = false
       http({
         // 这里不需要再写请求地址了
-        
+
         url: `/gateway?cityId=${this.$store.state.cityId}&pageNum=${this.page++}&pageSize=10&type=2&k=2116`,
         headers: {
-          "X-Host": "mall.film-ticket.film.list",
-        },
+          "X-Host": "mall.film-ticket.film.list"
+        }
       }).then((res) => {
-        if (this.dataList.length!=res.data.data.total) {
+        if (this.dataList.length != res.data.data.total) {
           this.dataList.push(...res.data.data.films)
-          this.tag = true;
-          }else {
-            this.show = true;
-          }
-      });
-    },
+          this.tag = true
+        } else {
+          this.show = true
+        }
+      })
+    }
   },
   mounted() {
-    this.sendRequest();
-    const html = document.documentElement;
-    window.onscroll = ()=> {
-      if (
-        html.scrollHeight - html.clientHeight - 40 <= html.scrollTop &&
-        this.tag
-      ) {
-        
-        this.sendRequest();
+    this.sendRequest()
+    const html = document.documentElement
+    window.onscroll = () => {
+      if (html.scrollHeight - html.clientHeight - 40 <= html.scrollTop && this.tag) {
+        this.sendRequest()
       }
-    };
-  },
-    beforeDestroy(){
-      window.onscroll =null;
     }
-};
+  },
+  beforeDestroy() {
+    window.onscroll = null
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -121,7 +110,8 @@ export default {
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  img,.imgBox{
+  img,
+  .imgBox {
     // height: ;
     width: 66px;
   }
@@ -174,14 +164,13 @@ export default {
   text-align: center;
   border-radius: 2px;
 }
-.noMore{
+.noMore {
   height: 59px;
-    background-color: #ededed;
-    color: #bdc0c5;
-    font-size: 13px;
-    text-align: center;
-    margin: auto;
-    line-height: 59px;
-
+  background-color: #ededed;
+  color: #bdc0c5;
+  font-size: 13px;
+  text-align: center;
+  margin: auto;
+  line-height: 59px;
 }
 </style>

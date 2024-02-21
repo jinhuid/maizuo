@@ -9,9 +9,7 @@
       >
         <div class="imgBox">
           <img-fade>
-            <div v-show="item.show">
-              <img :src="item.show ? item.poster : ''" alt="" />
-            </div>
+            <img v-show="item.show" :src="item.poster" alt="" />
           </img-fade>
         </div>
 
@@ -42,14 +40,14 @@
   </div>
 </template>
 <script>
-import http from '@/util/http.js'
-import Vue from 'vue'
-import lazy from '@/util/lazy'
-import ImgFade from '@/components/transition/ImgFade.vue'
-Vue.filter('actors', (v) => {
-  return v.map((item) => item.name).join(' ')
+import http from "@/util/http.js"
+import Vue from "vue"
+import lazy from "@/util/lazy"
+import ImgFade from "@/components/transition/ImgFade.vue"
+Vue.filter("actors", (v) => {
+  return v.map((item) => item.name).join(" ")
 })
-Vue.directive('lazy', lazy)
+Vue.directive("lazy", lazy)
 export default {
   data() {
     return {
@@ -64,9 +62,9 @@ export default {
   },
   methods: {
     buyTicket(id, filmName) {
-      this.$store.commit('setFilmInfo', { id, filmName })
+      this.$store.commit("setFilmInfo", { id, filmName })
       this.$router.push({
-        name: '电影视图', //用params时不能用path
+        name: "电影视图", //用params时不能用path
         params: {
           // path: `/detail/${id}/cinemas`,
           filmName,
@@ -83,7 +81,7 @@ export default {
 
       // 2.通过路由命名跳转
       this.$router.push({
-        name: '详情', //跳往组件的名字
+        name: "详情", //跳往组件的名字
         params: {
           myID: id
         }
@@ -95,7 +93,7 @@ export default {
         url: `/gateway?cityId=${this.$store.state.cityId}&pageNum=${this
           .page++}&pageSize=10&type=1&k=70052`,
         headers: {
-          'X-Host': 'mall.film-ticket.film.list'
+          "X-Host": "mall.film-ticket.film.list"
         }
       }).then((res) => {
         this.dataList.push(...res.data.data.films)
@@ -109,7 +107,7 @@ export default {
   async mounted() {
     await this.sendRequest()
     this.$nextTick(() => {
-      const noMore = document.querySelector('.noMore')
+      const noMore = document.querySelector(".noMore")
       const ob = new IntersectionObserver(
         (entries) => {
           //isIntersecting true为进入 false离开 进入离开都会触发
@@ -122,7 +120,7 @@ export default {
         {
           root: null, //null则默认使用顶级文档的视口。
           thresholds: 1, //露出视口多少部分
-          rootMargin: '0px 0px 300px 0px'
+          rootMargin: "0px 0px 300px 0px"
         }
       )
       ob.observe(noMore)
@@ -142,7 +140,7 @@ export default {
   position: relative;
   overflow: hidden;
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     bottom: 0;
