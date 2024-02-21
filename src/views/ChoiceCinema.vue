@@ -21,7 +21,6 @@
     </header>
 
     <section v-if="filmsInfo.length">
-      <div v-show="false">{{ filmsInfo }}</div>
       <div class="film">
         <div
           class="bg"
