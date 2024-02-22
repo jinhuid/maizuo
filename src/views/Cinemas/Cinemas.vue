@@ -2,8 +2,20 @@
   <div class="main">
     <van-nav-bar
       :title="'影院'"
-      @click-left="$router.push({ name: 'city' })"
-      @click-right="$router.push({ name: 'searchCinemas' })"
+      @click-left="
+        () => {
+          const path = '/city'
+          if (this.$route.path === path) return
+          $router.push(path)
+        }
+      "
+      @click-right="
+        () => {
+          const path = '/cinemas/search'
+          if (this.$route.path === path) return
+          $router.push(path)
+        }
+      "
     >
       <template #left>
         {{ $store.state.cityName }}
@@ -15,7 +27,7 @@
       </template>
     </van-nav-bar>
     <transition name="h" appear mode="out-in">
-		<router-view :height="getCinemaListHeight()"></router-view>
+      <router-view :height="getCinemaListHeight()"></router-view>
     </transition>
   </div>
 </template>
