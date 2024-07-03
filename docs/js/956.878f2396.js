@@ -1,0 +1,1 @@
+"use strict";(self["webpackChunkmaizuo"]=self["webpackChunkmaizuo"]||[]).push([[956],{8956:function(u,n,e){e.r(n),e.d(n,{default:function(){return a}});var r=function(){var u=this,n=u._self._c;return n("div",[u._v(" order ")])},l=[],t=e(4068),i={},s=(0,t.A)(i,r,l,!1,null,null,null),a=s.exports}}]);
